@@ -43,13 +43,20 @@ ui <- fluidPage(
                     "How many servings of fish do you eat per month?",
                     min = 0,
                     max = 20,
-                    value = 5)
+                    value = 5),
+        
+        selectInput("substitue", "Which of the following meat substitutes are you most likely to eat?", 
+                    choices = c("Tofu", "Seitan (vital wheat gluten)", "Legumes (Lentils, Beans, Peanuts)", "Vegan and Vegetarian Meats (ex: Gardein Products"))
       ),
       
       
       # Show a plot of the generated distribution
       mainPanel(
         h3("Resources Used and Animals Consumed", align = 'center'),
+        numericInput("timeFrame",
+                     "What time frame do you want the calculations so show? (1 year, 10 years, etc.)",
+                     min = .5, max = 100,
+                     value = 10),
         tableOutput("calculator"),
         tableOutput("animals")
       )
@@ -58,21 +65,46 @@ ui <- fluidPage(
 
 # Define server logic required to draw a histogram
 server <- function(input, output) { 
-   meatCalculator <- reactive({
+  
+  output$timeFrame <- renderText({
+    timeFrame()
+  })
+  
+  meatCalculator <- reactive({
+    
+    fromWeekToYear <- function(servingsPerWeek){
+      ouncesPerWeek <- servingsPerWeek*4
+      ouncesPerYear <- ouncesPerWeek*52
+      poundsPerYear <- ouncesPerYear/16
+      poundsPerTimeFrame <- poundsPerYear*input$timeFrame
+      return(poundsPerTimeFrame)
+    }
+    
+    fromMonthToYear <- function(servingsPerMonth){
+      ouncesPerMonth <- servingsPerMonth*4
+      ouncesPerYear <- ouncesPerMonth*12
+      poundsPerYear <- ouncesPerYear/16
+      poundsPerTimeFrame <- poundsPerYear*input$timeFrame
+      return(poundsPerTimeFrame)
+    }
+    
+    Cows= c(fromWeekToYear(input$Cow)*1845, fromWeekToYear(input$Cow)*13.3, fromWeekToYear(input$Cow)*(166.89/824.75))
+    Poultry= c(fromWeekToYear(input$Poultry)*515, fromWeekToYear(input$Poultry)*3.5, fromWeekToYear(input$Poultry)*(.22/3.31))
+    Pork= c(fromWeekToYear(input$Pork)*719, fromWeekToYear(input$Pork)*3.3, fromWeekToYear(input$Pork)*(31.967/180))
+    # Fish = Sheep = c(((((input$Sheep*4)/16)*12)*), ((((input$Sheep*4)/16)*12)*), 14),
+    Sheep = c(fromMonthToYear(input$Sheep)*1246.19, fromMonthToYear(input$Sheep)*86.42, fromMonthToYear(input$Sheep)*(1.1/70)) #water data from thepoultrysite.com, carbon data from grist.org
+    
      data.frame(
-       'You Consume These After 10 Years of Eating Meat' = 
+       'Your Consumption' = 
          c("Gallons of Water:",
             "Pounds of Carbon Dioxide:",
             "Pounds of Methane"),
-       Cow = c(((((input$Cow*4)/16)*52)*1845*10), ((((input$Cow*4)/16)*52)*13.3*10), ((((input$Cow*4)/16)*52)*(166.89/824.75)*10)),
-       Poultry = c(((((input$Poultry*4)/16)*52)*515*10), ((((input$Poultry*4)/16)*52)*3.5*10), ((((input$Poultry*4)/16)*52)*(.22/3.31)*10)),
-       Pork = c(((((input$Pork*4)/16)*52)*719*10), ((((input$Pork*4)/16)*52)*3.3*10), ((((input$Pork*4)/16)*52)*(31.967/180)*10)),
-      # Fish = Sheep = c(((((input$Sheep*4)/16)*12)**10), ((((input$Sheep*4)/16)*12)**10), 14),
-       Sheep = c(((((input$Sheep*4)/16)*12)*1246.19*10), ((((input$Sheep*4)/16)*12)*86.42*10), ((((input$Sheep*4)/16)*12)*(1.1/70)*10)), #water data from thepoultrysite.com, carbon data from grist.org
-       
-       Total = c(((((input$Cow*4)/16)*52)*1845*10) + ((((input$Poultry*4)/16)*52)*515*10) + ((((input$Pork*4)/16)*52)*719*10) + ((((input$Sheep*4)/16)*12)*1246.19*10), 
-                  ((((input$Cow*4)/16)*52)*13.3*10) + ((((input$Poultry*4)/16)*52)*3.5*10) + ((((input$Pork*4)/16)*52)*3.3*10) + ((((input$Sheep*4)/16)*12)*86.42*10),
-                  ((((input$Cow*4)/16)*52)*(166.89/824.75)*10) + ((((input$Poultry*4)/16)*52)*(.22/3.31)*10) + ((((input$Pork*4)/16)*52)*(31.967/180)*10) + ((((input$Sheep*4)/16)*12)*(1.1/70)*10)))
+       Cows,
+       Poultry,
+       Pork,
+      # Fish = Sheep = c(((((input$Sheep*4)/16)*12)*), ((((input$Sheep*4)/16)*12)*), 14),
+       Sheep, #water data from thepoultrysite.com, carbon data from grist.org
+       Total = c((Cows[1] + Poultry[1] + Pork[1] + Sheep[1]), (Cows[2] + Poultry[2] + Pork[2] + Sheep[2]), (Cows[3] + Poultry[3] + Pork[3] + Sheep[3])))
      })
    
    animalsEaten <- reactive({
@@ -94,4 +126,3 @@ server <- function(input, output) {
 
 # Run the application 
 shinyApp(ui = ui, server)
-
