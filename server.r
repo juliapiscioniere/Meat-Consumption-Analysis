@@ -22,11 +22,17 @@ server <- function(input, output) {
       return(poundsPerTimeFrame)
     }
     
-    Cows= c(fromWeekToYear(input$Cow)*1845, fromWeekToYear(input$Cow)*13.3, fromWeekToYear(input$Cow)*(166.89/824.75))
-    Poultry= c(fromWeekToYear(input$Poultry)*515, fromWeekToYear(input$Poultry)*3.5, fromWeekToYear(input$Poultry)*(.22/3.31))
-    Pork= c(fromWeekToYear(input$Pork)*719, fromWeekToYear(input$Pork)*3.3, fromWeekToYear(input$Pork)*(31.967/180))
+    MethaneCow = 575.6052162/824.75 #amount of methane per cow divided by average carcass weight
+    MethanePoultry = 0.033241905/ 3.31
+    MethanePork = 20.8676603/180
+    MethaneLambSheep = 44.33085392/50
+    
+    
+    Cows= c(fromWeekToYear(input$Cow)*1845, fromWeekToYear(input$Cow)*13.3, fromWeekToYear(input$Cow)*MethaneCow) #for methane, each one is divided by the size of the average animal because the value is pounds/head/year, so this is to get pound per pound of meat
+    Poultry= c(fromWeekToYear(input$Poultry)*515, fromWeekToYear(input$Poultry)*3.5, fromWeekToYear(input$Poultry)*MethanePoultry)
+    Pork= c(fromWeekToYear(input$Pork)*719, fromWeekToYear(input$Pork)*3.3, fromWeekToYear(input$Pork)*MethanePork)
     # Fish = Sheep = c(((((input$Sheep*4)/16)*12)*), ((((input$Sheep*4)/16)*12)*), 14),
-    Sheep = c(fromMonthToYear(input$Sheep)*1246.19, fromMonthToYear(input$Sheep)*86.42, fromMonthToYear(input$Sheep)*(1.1/70)) #water data from thepoultrysite.com, carbon data from grist.org
+    Sheep = c(fromMonthToYear(input$Sheep)*1246.19, fromMonthToYear(input$Sheep)*86.42, fromMonthToYear(input$Sheep)*MethaneLambSheep) #water data from thepoultrysite.com, carbon data from grist.org
     
     data.frame(
       'Your Consumption' = 
@@ -55,5 +61,7 @@ server <- function(input, output) {
   output$animals <- renderTable({
     animalsEaten()
   })
+  
+  
   
 }

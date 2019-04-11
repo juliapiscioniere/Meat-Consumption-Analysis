@@ -26,15 +26,10 @@ ui <- fluidPage(
                   "How many servings of sheep/lamb do you eat per month?",
                   min = 0,
                   max = 15,
-                  value = 2),
-      sliderInput("Fish",
-                  "How many servings of fish do you eat per month?",
-                  min = 0,
-                  max = 20,
-                  value = 5),
+                  value = 2)
       
-      selectInput("substitue", "Which of the following meat substitutes are you most likely to eat?", 
-                  choices = c("Tofu", "Seitan (vital wheat gluten)", "Legumes (Lentils, Beans, Peanuts)", "Vegan and Vegetarian Meats (ex: Gardein Products"))
+      #  selectInput("substitue", "Which of the following meat substitutes are you most likely to eat?", 
+      #             choices = c("Tofu", "Seitan (vital wheat gluten)", "Legumes (Lentils, Beans, Peanuts)", "Vegan and Vegetarian Meats (ex: Gardein Products"))
     ),
     
     
