@@ -9,13 +9,10 @@
 
 library(shiny)
 
-# Define UI for application that draws a histogram
 ui <- fluidPage(
    
-   # Application title
    titlePanel("Meat Consumption Analysis"),
    
-   # Sidebar with a slider input for number of bins 
    sidebarLayout(
       sidebarPanel(
          sliderInput("Cow",
@@ -41,11 +38,10 @@ ui <- fluidPage(
                     value = 2)
         
       #  selectInput("substitue", "Which of the following meat substitutes are you most likely to eat?", 
-       #             choices = c("Tofu", "Seitan (vital wheat gluten)", "Legumes (Lentils, Beans, Peanuts)", "Vegan and Vegetarian Meats (ex: Gardein Products"))
+       #             choices <- c("Tofu", "Seitan (vital wheat gluten)", "Legumes (Lentils, Beans, Peanuts)", "Vegan and Vegetarian Meats (ex: Gardein Products"))
       ),
       
-      
-      # Show a plot of the generated distribution
+
       mainPanel(
         h3("Resources Used and Animals Consumed", align = 'center'),
         numericInput("timeFrame",
@@ -54,12 +50,30 @@ ui <- fluidPage(
                      value = 10),
         tableOutput("calculator"),
         tableOutput("animals")
+        
       )
    )
 )
 
-# Define server logic required to draw a histogram
+Resource_Factors <- read.csv('Data_Tables/Resource_Consumption_Factors.csv', row.names = 1)
+Carcass_Weights <- read.csv('Data_Tables/Average_Carcass_Weights.csv', row.names = 1)
+
 server <- function(input, output) { 
+  fromWeekToYear <- function(servingsPerWeek){
+    ouncesPerWeek <- servingsPerWeek*4
+    ouncesPerYear <- ouncesPerWeek*52
+    poundsPerYear <- ouncesPerYear/16
+    poundsPerTimeFrame <- poundsPerYear*input$timeFrame
+    return(poundsPerTimeFrame)
+  }
+  
+  fromMonthToYear <- function(servingsPerMonth){
+    ouncesPerMonth <- servingsPerMonth*4
+    ouncesPerYear <- ouncesPerMonth*12
+    poundsPerYear <- ouncesPerYear/16
+    poundsPerTimeFrame <- poundsPerYear*input$timeFrame
+    return(poundsPerTimeFrame)
+  }
   
   output$timeFrame <- renderText({
     timeFrame()
@@ -67,65 +81,61 @@ server <- function(input, output) {
   
   meatCalculator <- reactive({
     
-    fromWeekToYear <- function(servingsPerWeek){
-      ouncesPerWeek <- servingsPerWeek*4
-      ouncesPerYear <- ouncesPerWeek*52
-      poundsPerYear <- ouncesPerYear/16
-      poundsPerTimeFrame <- poundsPerYear*input$timeFrame
-      return(poundsPerTimeFrame)
-    }
-    
-    fromMonthToYear <- function(servingsPerMonth){
-      ouncesPerMonth <- servingsPerMonth*4
-      ouncesPerYear <- ouncesPerMonth*12
-      poundsPerYear <- ouncesPerYear/16
-      poundsPerTimeFrame <- poundsPerYear*input$timeFrame
-      return(poundsPerTimeFrame)
-    }
-    
-    MethaneCow = 575.6052162/824.75 #amount of methane per cow divided by average carcass weight
-    MethanePoultry = 0.033241905/ 3.31
-    MethanePork = 20.8676603/180
-    MethaneLambSheep = 44.33085392/50
-    
-    
-    Cows= c(fromWeekToYear(input$Cow)*1845, fromWeekToYear(input$Cow)*13.3, fromWeekToYear(input$Cow)*MethaneCow) #for methane, each one is divided by the size of the average animal because the value is pounds/head/year, so this is to get pound per pound of meat
-    Poultry= c(fromWeekToYear(input$Poultry)*515, fromWeekToYear(input$Poultry)*3.5, fromWeekToYear(input$Poultry)*MethanePoultry)
-    Pork= c(fromWeekToYear(input$Pork)*719, fromWeekToYear(input$Pork)*3.3, fromWeekToYear(input$Pork)*MethanePork)
-    # Fish = Sheep = c(((((input$Sheep*4)/16)*12)*), ((((input$Sheep*4)/16)*12)*), 14),
-    Sheep = c(fromMonthToYear(input$Sheep)*1246.19, fromMonthToYear(input$Sheep)*86.42, fromMonthToYear(input$Sheep)*MethaneLambSheep) #water data from thepoultrysite.com, carbon data from grist.org
-    
-     data.frame(
-       'Your Consumption' = 
-         c("Gallons of Water:",
-            "Pounds of Carbon Dioxide:",
-            "Pounds of Methane"),
-       Cows,
-       Poultry,
-       Pork,
-      # Fish = Sheep = c(((((input$Sheep*4)/16)*12)*), ((((input$Sheep*4)/16)*12)*), 14),
-       Sheep, #water data from thepoultrysite.com, carbon data from grist.org
-       Total = c((Cows[1] + Poultry[1] + Pork[1] + Sheep[1]), (Cows[2] + Poultry[2] + Pork[2] + Sheep[2]), (Cows[3] + Poultry[3] + Pork[3] + Sheep[3])))
-     })
-   
-   animalsEaten <- reactive({
-     data.frame(
-       Animal = c('Cow', 'Chicken and Turkeys', 'Pork', "Sheep"),
-       'The Number of Animals Eaten in 10 Years' = c(((((input$Cow*4)/16)*52)/801)*10, ((((input$Poultry*4)/16)*52)/2.6)*10, ((((input$Pork*4)/16)*52)/213)*10, ((((input$Sheep*4)/16)*12)/49)*10)
-     )
-   })
-   
-   output$calculator <- renderTable({
-     meatCalculator()
-  })
-   
-   output$animals <- renderTable({
-     animalsEaten()
-   })
-   
-   
-   
-}
 
+    
+    Cows= c(fromWeekToYear(input$Cow)*Resource_Factors["Water/Pound", "Cow.Veal"], 
+            fromWeekToYear(input$Cow)*Resource_Factors["Carbon/Pound", "Cow.Veal"], 
+            fromWeekToYear(input$Cow)*Resource_Factors["Methane/Pound", "Cow.Veal"]) 
+    
+    Poultry= c(fromWeekToYear(input$Poultry)*Resource_Factors["Water/Pound", "Poultry"], 
+               fromWeekToYear(input$Poultry)*Resource_Factors["Carbon/Pound", "Poultry"], 
+               fromWeekToYear(input$Poultry)*Resource_Factors["Methane/Pound", "Poultry"])
+    
+    Pork= c(fromWeekToYear(input$Pork)*Resource_Factors["Water/Pound", "Pork"], 
+            fromWeekToYear(input$Pork)*Resource_Factors["Carbon/Pound", "Pork"], 
+            fromWeekToYear(input$Pork)*Resource_Factors["Methane/Pound", "Pork"])
+
+    Sheep = c(fromMonthToYear(input$Sheep)*Resource_Factors["Water/Pound", "Lamb.Sheep"], 
+              fromMonthToYear(input$Sheep)*Resource_Factors["Carbon/Pound", "Lamb.Sheep"], 
+              fromMonthToYear(input$Sheep)*Resource_Factors["Methane/Pound", "Lamb.Sheep"]) 
+    
+    data.frame(
+      'Your Consumption' = 
+        c("Gallons of Water:",
+          "Pounds of Carbon Dioxide:",
+          "Pounds of Methane"),
+      Cows,
+      Poultry,
+      Pork,
+      Sheep, 
+      Total = c((Cows[1] + Poultry[1] + Pork[1] + Sheep[1]), (Cows[2] + Poultry[2] 
+              + Pork[2] + Sheep[2]), (Cows[3] + Poultry[3] + Pork[3] + Sheep[3])))
+  })
+  
+  animalsEaten <- reactive({
+    
+      CowsEaten = (fromMonthToYear(input$Cow)/Carcass_Weights$Beef)*input$timeFrame
+      PoultryEaten = (fromMonthToYear(input$Poultry)/Carcass_Weights$Poultry)*input$timeFrame
+      PorkEaten = (fromMonthToYear(input$Pork)/Carcass_Weights$Pork)*input$timeFrame
+      SheepEaten = (fromWeekToYear(input$Sheep)/Carcass_Weights$Lamb.Sheep)*input$timeFrame
+      
+      data.frame(
+        Animal = c('Cow', 'Chicken and Turkeys', 'Pork', "Sheep"),
+        'Animals Eaten in Time Frame' = c(CowsEaten, PoultryEaten, PorkEaten,
+                                          SheepEaten)
+        )
+  })
+  
+  output$calculator <- renderTable({
+    meatCalculator()
+  })
+  
+  output$animals <- renderTable({
+    animalsEaten()
+  })
+  
+  
+  
+}
 # Run the application 
-shinyApp(ui = ui, server)
+shinyApp(ui <- ui, server)

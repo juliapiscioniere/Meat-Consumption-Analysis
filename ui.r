@@ -1,9 +1,7 @@
 ui <- fluidPage(
   
-  # Application title
   titlePanel("Meat Consumption Analysis"),
   
-  # Sidebar with a slider input for number of bins 
   sidebarLayout(
     sidebarPanel(
       sliderInput("Cow",
@@ -29,11 +27,10 @@ ui <- fluidPage(
                   value = 2)
       
       #  selectInput("substitue", "Which of the following meat substitutes are you most likely to eat?", 
-      #             choices = c("Tofu", "Seitan (vital wheat gluten)", "Legumes (Lentils, Beans, Peanuts)", "Vegan and Vegetarian Meats (ex: Gardein Products"))
+      #             choices <- c("Tofu", "Seitan (vital wheat gluten)", "Legumes (Lentils, Beans, Peanuts)", "Vegan and Vegetarian Meats (ex: Gardein Products"))
     ),
     
     
-    # Show a plot of the generated distribution
     mainPanel(
       h3("Resources Used and Animals Consumed", align = 'center'),
       numericInput("timeFrame",
@@ -42,6 +39,10 @@ ui <- fluidPage(
                    value = 10),
       tableOutput("calculator"),
       tableOutput("animals")
+      
     )
   )
 )
+
+Resource_Factors <- read.csv('Data_Tables/Resource_Consumption_Factors.csv', row.names = 1)
+Carcass_Weights <- read.csv('Data_Tables/Average_Carcass_Weights.csv', row.names = 1)
