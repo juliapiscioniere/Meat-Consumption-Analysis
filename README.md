@@ -23,9 +23,13 @@ List of Files and their Function:
 1.	Server.r and ui.r – the two spit files of the app; it allows the app to run locally on user’s machine
 2.	Meat_Calculator.R - the R file with the whole source code for the RShiny App 
 3.	Data_Tables Folder – contains csv files with data for calculations 
+
   a.	Resource_Consumption_Factors.csv is the table with the amount of resource per one pound of meat per animal
+
   b.	Average_Carcass_Weight.csv is the average carcass weight of each type of animal; this is used to calculate       the animals consumed 
+
   c.	Average_Person_Consumption.csv is the average American’s meat consumption and resource usage; this is used       to compare against user’s input 
+
   d.	Slaughter_Counts_Per_Animal.csv is the total number of animals slaughtered in the U.S. in 2016
 
 ACKNOWLEDGEMENTS:
@@ -39,6 +43,7 @@ DATA CREDITS:
 *All data with correlated year came from 2016*
 
 Data from Meat Calculator Website:
+
   •	Water and Carbon Resource Factors for Pork, Beef/Veal, and Poultry
   •	Tofu Resources
 
@@ -47,6 +52,7 @@ Link: https://www.ers.usda.gov/data-products/livestock-meat-domestic-data/livest
 
 Main Dataset “meatstatsfull.csv” = Link Above, Under ‘All Meat Statistics’, and then download ‘Historical’
   •	Carcass Weights:
+  
     o	Poultry = Average of Chicken and Turkey = 14.3 lbs
     
     o	Beef/Veal = Weighted Average with cattle dressed weights and calve dressed weights (since more cattle are       eaten than calves) = 818.2 lbs
@@ -56,6 +62,7 @@ Main Dataset “meatstatsfull.csv” = Link Above, Under ‘All Meat Statistics�
     o	Pork = Average of total Hogs dressed weight column = 211.3 lbs
 
   •	Total Numbers of Meat Slaughter:
+  
     o	Added up the columns without the ‘- -‘ in front under the “SlaughterCountsFull” tab
     
     o	Data shown in the Slaughter Counts Per Animal csv
