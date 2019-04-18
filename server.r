@@ -1,6 +1,6 @@
 Resource_Factors <- read.csv('Data_Tables/Resource_Consumption_Factors.csv', row.names = 1)
 Carcass_Weights <- read.csv('Data_Tables/Average_Carcass_Weights.csv', row.names = 1)
-#Average_Consumption <- read.csv('Data_Tables/Average_Person_Consumption.csv', row.names = 1)
+Average_Consumption <- read.csv('Data_Tables/Average_Person_Consumption.csv', row.names = 1)
 
 server <- function(input, output) { 
   fromWeekToYear <- function(servingsPerWeek){
@@ -33,62 +33,62 @@ server <- function(input, output) {
     return(poundsPerYear)
   }
   
-  # output$waterPlot <- renderPlot({
-  #   
-  #   water_data <- matrix(c(fromWeekToYearNoTimeFrame(input$Cow)*Resource_Factors["Water/Pound","Cow.Veal"], 
-  #                          fromMonthToYearNoTimeFrame(input$Sheep)*Resource_Factors["Water/Pound","Lamb.Sheep"],
-  #                          fromWeekToYearNoTimeFrame(input$Poultry)*Resource_Factors["Water/Pound","Poultry"],
-  #                          fromWeekToYearNoTimeFrame(input$Pork)*Resource_Factors["Water/Pound","Pork"], 
-  #                          Average_Consumption['Cow/Veal','Gallons.Water.Per.Year'],
-  #                          Average_Consumption['Sheep/Lamb','Gallons.Water.Per.Year'], 
-  #                          Average_Consumption['Poultry','Gallons.Water.Per.Year'],
-  #                          Average_Consumption['Pork','Gallons.Water.Per.Year']),
-  #                        nrow = 4)
-  #   colnames(water_data) = c("Your Consumption", "Average Consumption")
-  #   rownames(water_data) = c("Beef/Veal", "Lamb/Sheep", "Poultry", "Pork")
-  #   barplot(water_data, col=c("darkblue", "red", "purple", "green"), border="white", font.axis=2, beside=T,
-  #           legend=rownames(water_data), xlab="Consumer", ylab = "Gallons of Water", 
-  #           font.lab=2, main = "Water Usage Per Animal- Your Consumption Versus the Average In One Year")
-  #   
-  # })
-  # 
-  # output$carbonPlot <- renderPlot({
-  #   
-  #   carbon_data <- matrix(c(fromWeekToYearNoTimeFrame(input$Cow)*Resource_Factors["Carbon/Pound","Cow.Veal"], 
-  #                           fromMonthToYearNoTimeFrame(input$Sheep)*Resource_Factors["Carbon/Pound","Lamb.Sheep"],
-  #                           fromWeekToYearNoTimeFrame(input$Poultry)*Resource_Factors["Carbon/Pound","Poultry"],
-  #                           fromWeekToYearNoTimeFrame(input$Pork)*Resource_Factors["Carbon/Pound","Pork"], 
-  #                           Average_Consumption['Cow/Veal','Pounds.CO2.Per.Year'],
-  #                           Average_Consumption['Sheep/Lamb','Pounds.CO2.Per.Year'], 
-  #                           Average_Consumption['Poultry','Pounds.CO2.Per.Year'],
-  #                           Average_Consumption['Pork','Pounds.CO2.Per.Year']),
-  #                         nrow = 4)
-  #   colnames(carbon_data) = c("Your Consumption", "Average Consumption")
-  #   rownames(carbon_data) = c("Beef/Veal", "Lamb/Sheep", "Poultry", "Pork")
-  #   barplot(carbon_data, col=c("darkblue", "red", "purple", "green"), border="white", font.axis=2, beside=T,
-  #           legend=rownames(carbon_data), xlab="Counsumer", font.lab=2, main = 
-  #             "Carbon Emissions Per Animal- Your Consumption Versus the Average In One Year")
-  # })
-  # 
-  # output$methanePlot <- renderPlot({
-  #   methane_data <- matrix(c(fromWeekToYearNoTimeFrame(input$Cow)*Resource_Factors["Methane/Pound","Cow.Veal"], 
-  #                            fromMonthToYearNoTimeFrame(input$Sheep)*Resource_Factors["CMethane/Pound","Lamb.Sheep"],
-  #                            fromWeekToYearNoTimeFrame(input$Poultry)*Resource_Factors["Methane/Pound","Poultry"],
-  #                            fromWeekToYearNoTimeFrame(input$Pork)*Resource_Factors["Methane/Pound","Pork"], 
-  #                            Average_Consumption['Cow/Veal','Pounds.Methane.Per.Year'],
-  #                            Average_Consumption['Sheep/Lamb','Pounds.Methane.Per.Year'], 
-  #                            Average_Consumption['Poultry','Pounds.Methane.Per.Year'],
-  #                            Average_Consumption['Pork','Pounds.Methane.Per.Year']),
-  #                          nrow = 4)
-  #   colnames(methane_data) = c("Your Consumption", "Average Consumption")
-  #   rownames(methane_data) = c("Beef/Veal", "Lamb/Sheep", "Poultry", "Pork")
-  #   barplot(methane_data, col=c("darkblue", "red", "purple", "green"), border="white", font.axis=2, beside=T,
-  #           legend=rownames(methane_data), xlab="Consumer", font.lab=2, main = "Methane 
-  #           Emissions Per Animal- Your Consumption Versus the Average In One Year")
-  #   
-  #   
-  #   
-  # })
+  output$waterPlot <- renderPlot({
+    
+    water_data <- matrix(c(fromWeekToYearNoTimeFrame(input$Cow)*Resource_Factors["Water/Pound","Cow.Veal"], 
+                           fromMonthToYearNoTimeFrame(input$Sheep)*Resource_Factors["Water/Pound","Lamb.Sheep"],
+                           fromWeekToYearNoTimeFrame(input$Poultry)*Resource_Factors["Water/Pound","Poultry"],
+                           fromWeekToYearNoTimeFrame(input$Pork)*Resource_Factors["Water/Pound","Pork"], 
+                           Average_Consumption['Cow/Veal','Gallons.Water.Per.Year'],
+                           Average_Consumption['Sheep/Lamb','Gallons.Water.Per.Year'], 
+                           Average_Consumption['Poultry','Gallons.Water.Per.Year'],
+                           Average_Consumption['Pork','Gallons.Water.Per.Year']),
+                         nrow = 4)
+    colnames(water_data) = c("Your Consumption", "Average Consumption")
+    rownames(water_data) = c("Beef/Veal", "Lamb/Sheep", "Poultry", "Pork")
+    barplot(water_data, col=c("darkblue", "red", "purple", "green"), border="white", font.axis=2, beside=T,
+            legend=rownames(water_data), xlab="Consumer", ylab = "Gallons of Water", 
+            font.lab=2, main = "Water Usage Per Animal- Your Consumption Versus the Average In One Year")
+    
+  })
+  
+  output$carbonPlot <- renderPlot({
+    
+    carbon_data <- matrix(c(fromWeekToYearNoTimeFrame(input$Cow)*Resource_Factors["Carbon/Pound","Cow.Veal"], 
+                            fromMonthToYearNoTimeFrame(input$Sheep)*Resource_Factors["Carbon/Pound","Lamb.Sheep"],
+                            fromWeekToYearNoTimeFrame(input$Poultry)*Resource_Factors["Carbon/Pound","Poultry"],
+                            fromWeekToYearNoTimeFrame(input$Pork)*Resource_Factors["Carbon/Pound","Pork"], 
+                            Average_Consumption['Cow/Veal','Pounds.CO2.Per.Year'],
+                            Average_Consumption['Sheep/Lamb','Pounds.CO2.Per.Year'], 
+                            Average_Consumption['Poultry','Pounds.CO2.Per.Year'],
+                            Average_Consumption['Pork','Pounds.CO2.Per.Year']),
+                          nrow = 4)
+    colnames(carbon_data) = c("Your Consumption", "Average Consumption")
+    rownames(carbon_data) = c("Beef/Veal", "Lamb/Sheep", "Poultry", "Pork")
+    barplot(carbon_data, col=c("darkblue", "red", "purple", "green"), border="white", font.axis=2, beside=T,
+            legend=rownames(carbon_data), xlab="Counsumer", font.lab=2, main = 
+              "Carbon Emissions Per Animal- Your Consumption Versus the Average In One Year")
+  })
+  
+  output$methanePlot <- renderPlot({
+    methane_data <- matrix(c(fromWeekToYearNoTimeFrame(input$Cow)*Resource_Factors["Methane/Pound","Cow.Veal"], 
+                             fromMonthToYearNoTimeFrame(input$Sheep)*Resource_Factors["CMethane/Pound","Lamb.Sheep"],
+                             fromWeekToYearNoTimeFrame(input$Poultry)*Resource_Factors["Methane/Pound","Poultry"],
+                             fromWeekToYearNoTimeFrame(input$Pork)*Resource_Factors["Methane/Pound","Pork"], 
+                             Average_Consumption['Cow/Veal','Pounds.Methane.Per.Year'],
+                             Average_Consumption['Sheep/Lamb','Pounds.Methane.Per.Year'], 
+                             Average_Consumption['Poultry','Pounds.Methane.Per.Year'],
+                             Average_Consumption['Pork','Pounds.Methane.Per.Year']),
+                           nrow = 4)
+    colnames(methane_data) = c("Your Consumption", "Average Consumption")
+    rownames(methane_data) = c("Beef/Veal", "Lamb/Sheep", "Poultry", "Pork")
+    barplot(methane_data, col=c("darkblue", "red", "purple", "green"), border="white", font.axis=2, beside=T,
+            legend=rownames(methane_data), xlab="Consumer", font.lab=2, main = "Methane 
+            Emissions Per Animal- Your Consumption Versus the Average In One Year")
+    
+    
+    
+  })
   
   output$timeFrame <- renderText({
     timeFrame()
@@ -122,7 +122,7 @@ server <- function(input, output) {
       Pork,
       Sheep, 
       Total = c((Cows[1] + Poultry[1] + Pork[1] + Sheep[1]), (Cows[2] + Poultry[2] 
-                                                              + Pork[2] + Sheep[2]), (Cows[3] + Poultry[3] + Pork[3] + Sheep[3])))
+               + Pork[2] + Sheep[2]), (Cows[3] + Poultry[3] + Pork[3] + Sheep[3])))
   })
   
   animalsEaten <- reactive({

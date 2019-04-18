@@ -1,4 +1,3 @@
-library(shiny)
 ui <- fluidPage(
   
   titlePanel("Meat Consumption Analysis"),
@@ -25,7 +24,8 @@ ui <- fluidPage(
                   "How many servings of sheep/lamb do you eat per month?",
                   min = 0,
                   max = 15,
-                  value = 2)
+                  value = 2),
+      tableOutput("animals")
     ),
     
     
@@ -36,10 +36,9 @@ ui <- fluidPage(
                    min = .5, max = 100,
                    value = 10),
       tableOutput("calculator"),
-      tableOutput("animals")
-      #plotOutput("waterPlot"),
-      #plotOutput("carbonPlot"),
-      #plotOutput("methanePlot")
+      plotOutput("waterPlot"),
+      plotOutput("carbonPlot"),
+      plotOutput("methanePlot")
     )
   )
 )
