@@ -43,6 +43,3 @@ ui <- fluidPage(
     )
   )
 )
-
-Resource_Factors <- read.csv('Data_Tables/Resource_Consumption_Factors.csv', row.names = 1)
-Carcass_Weights <- read.csv('Data_Tables/Average_Carcass_Weights.csv', row.names = 1)
