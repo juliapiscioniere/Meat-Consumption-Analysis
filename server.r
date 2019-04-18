@@ -39,8 +39,8 @@ server <- function(input, output) {
                            fromMonthToYearNoTimeFrame(input$Sheep)*Resource_Factors["Water/Pound","Lamb.Sheep"],
                            fromWeekToYearNoTimeFrame(input$Poultry)*Resource_Factors["Water/Pound","Poultry"],
                            fromWeekToYearNoTimeFrame(input$Pork)*Resource_Factors["Water/Pound","Pork"], 
-                           Average_Consumption['Cow/Veal','Gallons.Water.Per.Year'],
-                           Average_Consumption['Sheep/Lamb','Gallons.Water.Per.Year'], 
+                           Average_Consumption['Cow-Veal','Gallons.Water.Per.Year'],
+                           Average_Consumption['Sheep-Lamb','Gallons.Water.Per.Year'], 
                            Average_Consumption['Poultry','Gallons.Water.Per.Year'],
                            Average_Consumption['Pork','Gallons.Water.Per.Year']),
                          nrow = 4)
@@ -75,8 +75,8 @@ server <- function(input, output) {
                              fromMonthToYearNoTimeFrame(input$Sheep)*Resource_Factors["CMethane/Pound","Lamb.Sheep"],
                              fromWeekToYearNoTimeFrame(input$Poultry)*Resource_Factors["Methane/Pound","Poultry"],
                              fromWeekToYearNoTimeFrame(input$Pork)*Resource_Factors["Methane/Pound","Pork"], 
-                             Average_Consumption['Cow/Veal','Pounds.Methane.Per.Year'],
-                             Average_Consumption['Sheep/Lamb','Pounds.Methane.Per.Year'], 
+                             Average_Consumption['Cow-Veal','Pounds.Methane.Per.Year'],
+                             Average_Consumption['Sheep-Lamb','Pounds.Methane.Per.Year'], 
                              Average_Consumption['Poultry','Pounds.Methane.Per.Year'],
                              Average_Consumption['Pork','Pounds.Methane.Per.Year']),
                            nrow = 4)
