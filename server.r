@@ -64,8 +64,8 @@ server <- function(input, output) {
                             fromMonthToYearNoTimeFrame(input$Sheep)*Resource_Factors["Carbon/Pound","Lamb.Sheep"],
                             fromWeekToYearNoTimeFrame(input$Poultry)*Resource_Factors["Carbon/Pound","Poultry"],
                             fromWeekToYearNoTimeFrame(input$Pork)*Resource_Factors["Carbon/Pound","Pork"], 
-                            Average_Consumption['Cow/Veal','Pounds.CO2.Per.Year'],
-                            Average_Consumption['Sheep/Lamb','Pounds.CO2.Per.Year'], 
+                            Average_Consumption['Cow-Veal','Pounds.CO2.Per.Year'],
+                            Average_Consumption['Sheep-Lamb','Pounds.CO2.Per.Year'], 
                             Average_Consumption['Poultry','Pounds.CO2.Per.Year'],
                             Average_Consumption['Pork','Pounds.CO2.Per.Year']),
                           nrow = 4)
