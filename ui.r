@@ -1,3 +1,4 @@
+library(shiny)
 ui <- fluidPage(
   
   titlePanel("Meat Consumption Analysis"),
