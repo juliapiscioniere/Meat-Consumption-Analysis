@@ -1,48 +1,61 @@
 # Meat-Consumption-Analysis
-Objective:
+
+HOW TO RUN APP
+
+To run the rshiny app locally on your computer, make sure you have R installed on your computer, open an R Script and type: 
+shiny::runGitHub('Meat-Consumption-Analysis', 'juliapiscioniere')
+
+OBJECTIVE
 
 This repo contains the code for a meat consumption calculator modeled after this one on blitzresults:
 https://www.blitzresults.com/en/meat/
 
-The main point in running and interacting with the meat consumption calculator is for people to see that meat is a major component to their overall waste and carbon footprint; the calculator displays the water, carbon, and methane that is used/ produced when supplying the specific amount of meat indicated in the calculator's inputs. People tend to be conscious of the amount of gas that they use while driving, the amount of plane rides they take, the amount of water they use in their home, the amount of waste they produce and the amount of energy they use in their homes, but they are blind to one of the main contributors to their overall consumption - meat.
+The main points in running and interacting with the meat consumption calculator:
+•	Calculate the carbon and methane polluted and water used when producing user’s meat 
+•	Show how meat is a major component to a person’s carbon footprint
 
-Structure:
+I have noticed that many people do not think about the implications of meat, or have no clue the impact that eating red meat can have. The goal of this calculator is to show people what an impact cutting out certain meats could have. 
 
-The repo contains different files related to the Rshiny App. The most important files include the server.r and the ui.r files; these are the ones that allow the app to be run locally on a person's machine. Both the Meat_Calculator.R and the RScript_Meat_Calculator.R have the full source code for the app, with the first one being the shiny web app document and the second being a basic rscript. These are if you want to see the server and ui in the same code/ as one document. The Data_Wrangling is not used in this project thus far, so it can be disregarded. 
+STRUCTURE 
 
-Run App:
+The repo contains different files related to the Rshiny App. 
+List of Files and their Function:
+1.	Server.r and ui.r – the two spit files of the app; it allows the app to run locally on user’s machine
+2.	Meat_Calculator.R - the R file with the whole source code for the RShiny App 
+3.	Data_Tables Folder – contains csv files with data for calculations 
+  a.	Resource_Consumption_Factors.csv is the table with the amount of resource per one pound of meat per animal
+  b.	Average_Carcass_Weight.csv is the average carcass weight of each type of animal; this is used to calculate       the animals consumed 
+  c.	Average_Person_Consumption.csv is the average American’s meat consumption and resource usage; this is used       to compare against user’s input 
+  d.	Slaughter_Counts_Per_Animal.csv is the total number of animals slaughtered in the U.S. in 2016
 
-To run the rshiny app locally on your computer, make sure you have R installed on your computer, open an R Script and type: shiny::runGitHub('Meat-Consumption-Analysis', 'juliapiscioniere')
-
-Acknowledgements:
+ACKNOWLEDGEMENTS:
 
 The model of this calculator is based off of this calculator: https://www.blitzresults.com/en/meat/
 
+Thank you Dr. McGlinn for teaching me R and assigning this project! 
+
 DATA CREDITS:
 
-Average meat consumption per capita in America values: USDA ERS Loss-Adjusted Food Availability for Meat, Poultry, Fish, Eggs, and Nuts
-  Link - https://www.ers.usda.gov/data-products/food-availability-per-capita-data-system/food-availabili              
-  ty-per-capita-data-system/#Loss-Adjusted%20Food%20Availability
-  Column - Retail Per Capita Food Availability for 2016
-  The data is coming from the loss-adjusted food availability rather than the main data sheet (which is the one referenced on blitzresults) because 
-  it is the average per capita adjusted for food that is spoiled along the way, goes bad, recalled, and overall not eaten.
-  
-Water and CO2 Consumption: Data table on blitzresults calculator, source is Water Footprint Network and Oko-Institute 
-  They do not have data on sheep/lamb because their calculator does not include sheep and lamb. I gathered the information on water usage from          sheep/lamb production from https://thepoultrysite.com/news/2016/04/how-much-water-does-it-take-to-produce-meat and I got the information on carbon    production from the chart on this site:           
-  https://www.ewg.org/meateatersguide/a-meat-eaters-guide-to-climate-change-health-what-you-eat-matters/climate-and-environmental-impacts/
+*All data with correlated year came from 2016*
 
-Calculation for slaughtered animals per year: the calculation that is on the blitzresults website
-    Slaughtered Animals = (Meat Consumption in Pounds)/(Retail Weight of Meat Per Animal in Pounds)
-    Data for Average Retail Weight is from blitzresults: 
-              Pork = 213 lbs/pig
-              Beef/Veal = 801 lbs/animal
-              Poultry = 2.6 lbs/animal
-              
-Methane Consumption: Data is from Environmental Protection Agency, chapter_tables, table 5-10, kg/head/year in 2015
-    The calculations for methane production per pound of meat is ((pounds of methane per animal in 2016 / number of that animal slaughtered in 2016 )/(average carcass weight of that animal))*the input for number of years
-    I added the dairy and beef numbers together because dairy cows do end up being slaughtered for meat, so it is not right to differentiate when         analyzing for meat consumption. I also converted the numbers to pounds/head/year for this meat calculator; I converted this to amount per pound of meat by dividing by the average weight of the carcass of the animal. For lamb and sheep this was tricky because lamb is more popular than sheep for consumption, and it is also much more methane per pound, but the average does not tell that. According to the USDS ERS data, there were 120,200 mature sheep and 2,117,700 lamb/yearlings killed in 2016. This is approximately 95% lamb and 5% adult sheep; 
-    
-  
-  
+Data from Meat Calculator Website:
+  •	Water and Carbon Resource Factors for Pork, Beef/Veal, and Poultry
+  •	Tofu Resources
 
+Data from USDA Economic Research Service:
+Link: https://www.ers.usda.gov/data-products/livestock-meat-domestic-data/livestock-meat-domestic-data/#Livestock%20and%20poultry%20slaughter
 
+Main Dataset “meatstatsfull.csv” = Link Above, Under ‘All Meat Statistics’, and then download ‘Historical’
+  •	Carcass Weights:
+    o	Poultry = Average of Chicken and Turkey = 14.3 lbs
+    o	Beef/Veal = Weighted Average with cattle dressed weights and calve dressed weights (since more cattle are       eaten than calves) = 818.2 lbs
+    o	Lamb/Sheep = Average of sheep and lambs dressed weight column = 68.7 lbs
+    o	Pork = Average of total Hogs dressed weight column = 211.3 lbs
+
+  •	Total Numbers of Meat Slaughter:
+    o	Added up the columns without the ‘- -‘ in front under the “SlaughterCountsFull” tab
+    o	Data shown in the Slaughter Counts Per Animal csv
+
+Loss-Adjusted Availability Per Capita:
+Link: https://www.ers.usda.gov/data-products/food-availability-per-capita-data-system/food-availability-per-capita-data-system/
+  •	Average Consumption of Lamb/Sheep = .5 lb/year    
