@@ -1,10 +1,11 @@
 Resource_Factors <- read.csv('Data_Tables/Resource_Consumption_Factors.csv', row.names = 1)
 Carcass_Weights <- read.csv('Data_Tables/Average_Carcass_Weights.csv', row.names = 1)
-Average_Consumption <- read.csv('Data_Tables/Average_Person_Consumption.csv', row.names = c(
-  "Cow-Veal","Poultry","Pork","Sheep-Lamb"))
+Average_Consumption <- read.csv('Data_Tables/Average_Person_Consumption.csv', row.names = 1)
+#Above code imports csv data from Data_Tables in the directory
 
 server <- function(input, output) { 
-  fromWeekToYear <- function(servingsPerWeek){
+  fromWeekToYear <- function(servingsPerWeek){ #Used to convert week input to year 
+    #and makes it based on the timeFrame as well
     ouncesPerWeek <- servingsPerWeek*4
     ouncesPerYear <- ouncesPerWeek*52
     poundsPerYear <- ouncesPerYear/16
@@ -12,7 +13,8 @@ server <- function(input, output) {
     return(poundsPerTimeFrame)
   }
   
-  fromMonthToYear <- function(servingsPerMonth){
+  fromMonthToYear <- function(servingsPerMonth){ #Used to convert month input to year 
+    #and makes it based on the timeFrame as well
     ouncesPerMonth <- servingsPerMonth*4
     ouncesPerYear <- ouncesPerMonth*12
     poundsPerYear <- ouncesPerYear/16
@@ -20,14 +22,16 @@ server <- function(input, output) {
     return(poundsPerTimeFrame)
   }
   
-  fromWeekToYearNoTimeFrame <- function(servingsPerWeek){
+  fromWeekToYearNoTimeFrame <- function(servingsPerWeek){ #same function as above
+    #without the timeFrame variable, to make it just one year
     ouncesPerWeek <- servingsPerWeek*4
     ouncesPerYear <- ouncesPerWeek*52
     poundsPerYear <- ouncesPerYear/16
     return(poundsPerYear)
   }
   
-  fromMonthToYearNoTimeFrame <- function(servingsPerMonth){
+  fromMonthToYearNoTimeFrame <- function(servingsPerMonth){ #same function as above
+    #without the timeFrame variable, to make it just one year
     ouncesPerMonth <- servingsPerMonth*4
     ouncesPerYear <- ouncesPerMonth*12
     poundsPerYear <- ouncesPerYear/16
@@ -45,6 +49,7 @@ server <- function(input, output) {
                            Average_Consumption['Poultry','Gallons.Water.Per.Year'],
                            Average_Consumption['Pork','Gallons.Water.Per.Year']),
                          nrow = 4)
+    #matrix above used to make grouped bar plot for water consumption
     colnames(water_data) = c("Your Consumption", "Average Consumption")
     rownames(water_data) = c("Beef/Veal", "Lamb/Sheep", "Poultry", "Pork")
     barplot(water_data, col=c("darkblue", "red", "purple", "green"), border="white", font.axis=2, beside=T,
@@ -96,7 +101,7 @@ server <- function(input, output) {
   })
   
   meatCalculator <- reactive({
-    
+    #These multiply the input for the year by the factor from the csv 
     Cows= c(fromWeekToYear(input$Cow)*Resource_Factors["Water/Pound", "Cow.Veal"], 
             fromWeekToYear(input$Cow)*Resource_Factors["Carbon/Pound", "Cow.Veal"], 
             fromWeekToYear(input$Cow)*Resource_Factors["Methane/Pound", "Cow.Veal"]) 
@@ -127,7 +132,8 @@ server <- function(input, output) {
   })
   
   animalsEaten <- reactive({
-    
+    #Amount of meat eaten is divided by the carcass weight to get number of 
+    #animals eaten
     CowsEaten = (fromMonthToYear(input$Cow)/Carcass_Weights$Beef)
     PoultryEaten = (fromMonthToYear(input$Poultry)/Carcass_Weights$Poultry)
     PorkEaten = (fromMonthToYear(input$Pork)/Carcass_Weights$Pork)
