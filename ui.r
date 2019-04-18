@@ -25,8 +25,7 @@ ui <- fluidPage(
                   "How many servings of sheep/lamb do you eat per month?",
                   min = 0,
                   max = 15,
-                  value = 2),
-      tableOutput("animals")
+                  value = 2)
     ),
     
     
@@ -37,9 +36,10 @@ ui <- fluidPage(
                    min = .5, max = 100,
                    value = 10),
       tableOutput("calculator"),
-      plotOutput("waterPlot"),
-      plotOutput("carbonPlot"),
-      plotOutput("methanePlot")
+      tableOutput("animals")
+      #plotOutput("waterPlot"),
+      #plotOutput("carbonPlot"),
+      #plotOutput("methanePlot")
     )
   )
 )
