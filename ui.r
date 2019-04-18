@@ -1,4 +1,3 @@
-
 ui <- fluidPage(
   
   titlePanel("Meat Consumption Analysis"),
