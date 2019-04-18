@@ -1,5 +1,5 @@
-#Resource_Factors <- read.csv('Data_Tables/Resource_Consumption_Factors.csv', row.names = 1)
-#Carcass_Weights <- read.csv('Data_Tables/Average_Carcass_Weights.csv', row.names = 1)
+Resource_Factors <- read.csv('Data_Tables/Resource_Consumption_Factors.csv', row.names = 1)
+Carcass_Weights <- read.csv('Data_Tables/Average_Carcass_Weights.csv', row.names = 1)
 #Average_Consumption <- read.csv('Data_Tables/Average_Person_Consumption.csv', row.names = 1)
 
 server <- function(input, output) { 
