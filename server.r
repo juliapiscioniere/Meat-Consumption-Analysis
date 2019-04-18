@@ -78,7 +78,7 @@ server <- function(input, output) {
   
   output$methanePlot <- renderPlot({
     methane_data <- matrix(c(fromWeekToYearNoTimeFrame(input$Cow)*Resource_Factors["Methane/Pound","Cow.Veal"], 
-                             fromMonthToYearNoTimeFrame(input$Sheep)*Resource_Factors["CMethane/Pound","Lamb.Sheep"],
+                             fromMonthToYearNoTimeFrame(input$Sheep)*Resource_Factors["Methane/Pound","Lamb.Sheep"],
                              fromWeekToYearNoTimeFrame(input$Poultry)*Resource_Factors["Methane/Pound","Poultry"],
                              fromWeekToYearNoTimeFrame(input$Pork)*Resource_Factors["Methane/Pound","Pork"], 
                              Average_Consumption['Cow-Veal','Pounds.Methane.Per.Year'],
