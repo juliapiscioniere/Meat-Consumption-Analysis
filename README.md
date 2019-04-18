@@ -48,12 +48,16 @@ Link: https://www.ers.usda.gov/data-products/livestock-meat-domestic-data/livest
 Main Dataset “meatstatsfull.csv” = Link Above, Under ‘All Meat Statistics’, and then download ‘Historical’
   •	Carcass Weights:
     o	Poultry = Average of Chicken and Turkey = 14.3 lbs
+    
     o	Beef/Veal = Weighted Average with cattle dressed weights and calve dressed weights (since more cattle are       eaten than calves) = 818.2 lbs
+    
     o	Lamb/Sheep = Average of sheep and lambs dressed weight column = 68.7 lbs
+    
     o	Pork = Average of total Hogs dressed weight column = 211.3 lbs
 
   •	Total Numbers of Meat Slaughter:
     o	Added up the columns without the ‘- -‘ in front under the “SlaughterCountsFull” tab
+    
     o	Data shown in the Slaughter Counts Per Animal csv
 
 Loss-Adjusted Availability Per Capita:
